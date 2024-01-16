@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-"""This module defines a class to manage file storage"""
+"""This module defines a class to manage file storage for hbnb clone"""
 import json
 
 
@@ -9,15 +9,15 @@ class FileStorage:
     __objects = {}
 
     def all(self, cls=None):
-        """Return a dictionary of models in storage"""
+        """Returns a dictionary of models currently in storage"""
         if cls is None:
             return self.__objects
         cls_name = cls.__name__
-        new_dict = {}
+        dct = {}
         for key in self.__objects.keys():
             if key.split('.')[0] == cls_name:
-                new_dict[key] = self.__objects[key]
-        return new_dict
+                dct[key] = self.__objects[key]
+        return dct
 
     def new(self, obj):
         """Adds new object to storage dictionary"""
@@ -30,8 +30,8 @@ class FileStorage:
         with open(self.__file_path, 'w') as f:
             temp = {}
             temp.update(self.__objects)
-            for key, value in temp.items():
-                temp[key] = value.to_dict()
+            for key, val in temp.items():
+                temp[key] = val.to_dict()
             json.dump(temp, f)
 
     def reload(self):
@@ -48,24 +48,26 @@ class FileStorage:
                     'BaseModel': BaseModel, 'User': User, 'Place': Place,
                     'State': State, 'City': City, 'Amenity': Amenity,
                     'Review': Review
-                    }
+                  }
         try:
             temp = {}
             with open(self.__file_path, 'r') as f:
                 temp = json.load(f)
-                from key, value in temp.items():
-                    self.all()[key] = classes[value['__class__']](**value)
+                for key, val in temp.items():
+                    self.all()[key] = classes[val['__class__']](**val)
         except FileNotFoundError:
             pass
 
-        def delete(self, obj=None):
-            """deletes the object from the attribute"""
-            if obj in None:
-                return
-            obj_key = obj.to_dict()['__class__'] + '.' + obj.id
-            if obj_key in self.__objects.key():
-                del self.__objects[obj_key]
+    def delete(self, obj=None):
+        ''' deletes the object obj from the attribute
+            __objects if it's inside it
+        '''
+        if obj is None:
+            return
+        obj_key = obj.to_dict()['__class__'] + '.' + obj.id
+        if obj_key in self.__objects.keys():
+            del self.__objects[obj_key]
 
-        def close(self):
-            """Reload method"""
-            self.reload()
+    def close(self):
+        """Call the reload method"""
+        self.reload()
