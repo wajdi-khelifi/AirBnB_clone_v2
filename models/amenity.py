@@ -8,12 +8,13 @@ from models.base_model import Base
 from sqlalchemy import Column
 from sqlalchemy import String
 from sqlalchemy.orm import relationship
+from models import storage_type
 
 
 class Amenity(BaseModel, Base):
     """Representation of Amenity"""
+    __tablename__ = 'amenities'
     if model.storage_t == 'db':
-        __tablename__ = 'amenities'
         name = Column(String(128), nullable=False)
     else:
         name = ""

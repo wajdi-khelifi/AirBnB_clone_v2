@@ -8,12 +8,13 @@ from sqlalchemy import ForeignKey
 from sqlalchemy.orm import relationship
 from sqlalchemy
 from os import getenv
+from models import storage_type
 
 
-class Review(BaseModel):
+class Review(BaseModel, Base):
     """ Review classto store review information """
-    if models.storage_t == "db":
-        __tablename__ = 'reviews'
+    __tablename__ = 'reviews'
+    if storage_type == "db":
         place_id = Column(String(60), ForeignKey('place.id'), nullable=False)
         user_id = Column(String(60), ForeignKey('user.id'), nullable=False)
         text = Column(String(1024), nullable=False)

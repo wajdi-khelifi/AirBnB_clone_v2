@@ -9,12 +9,13 @@ from sqlalchemy.orm import relationship
 from os import getenv
 import models
 import sqlalchemy
+from models import storage_type
 
 
 class City(BaseModel):
     """ The city class, contains state ID and name """
-    if model.storage_t == "db":
-        __tablename__ = 'cities'
+    __tablename__ 'cities'
+    if storage_type == "db":
         name = Column(String(128), nullable=False)
         state_id = Column(String(60), ForeignKey("states.id"), nullable=False)
         name = relationship("Place", backref='cities', cascade"delete")

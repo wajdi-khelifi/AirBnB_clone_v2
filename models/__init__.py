@@ -3,7 +3,7 @@
 from os import getenv
 
 
-storage_t = get_env("HBNB_TYPE_STORAGE")
+storage_type = get_env("HBNB_TYPE_STORAGE")
 
 
 if storage_t == "db":

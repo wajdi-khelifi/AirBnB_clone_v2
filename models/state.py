@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-import models
+from models import storage_type
 from models.base_model import BaseModel
 from model.base_model import Base
 from model.city import City
@@ -13,8 +13,8 @@ from sqlalchemy.orm import relationship
 
 class State(BaseModel, Base):
     """Representation of state"""
-    if models.storage_t == "db":
-        __tablename__ = 'states'
+    __tablename__ = 'states'
+    if storage_type == "db":
         name = Column(String(128), nullable=False)
         cities = relationship("City", backref="state")
     else:
@@ -24,12 +24,13 @@ class State(BaseModel, Base):
         """Initializes state"""
         super().__init__(*args, **kwargs)
 
-    if model.storage_t != "db":
+    if storage_type != "db":
         @property
         def cities(self):
             """List of city instance related th the state"""
+            from models import storage
             list_city = []
-            all_cities = model.storage.all(City)
+            all_cities = storage.all(City)
             for city in all_cities.values():
                 if city.state_id == self.id:
                     list_city.append(city)

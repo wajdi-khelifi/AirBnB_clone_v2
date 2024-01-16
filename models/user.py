@@ -6,14 +6,14 @@ from sqlalchemy.orm import relationship
 from sqlalchemy import String
 from sqlalchemy import Column
 from os import getenv
-import models
+from models import storage_type
 import sqlalchemy
 
 
 class User(BaseModel, Base):
     """Representation od user"""
-    if models.storage_t == 'db':
-        __tablename__ = 'users'
+    __tablename__ = 'users'
+    if storage_type == 'db':
         email = Column(String(128), nullable=False)
         password = Column(String(128), nullable=False)
         first_name = Column(String(128), nullable=False)
