@@ -41,7 +41,7 @@ class HBNBCommand(cmd.Cmd):
         return True
 
     def do_create(self, line):
-        """Create a new class instance with given keys/values and print its id"""
+        """Create class instance with given keys/values and print its id"""
         try:
             if not line:
                 raise SyntaxError()
