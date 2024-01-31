@@ -25,6 +25,9 @@ sudo sh -c 'echo "It'\''s all working for me" > data/web_static/releases/test/in
 # Create symlink
 sudo ln -sfn /data/web_static/releases/test/ /data/web_static/current
 
+# Set ownership and permission of file structure
+sudo chown -R ubuntu:ubuntu /data/
+
 # Update nginx config to serve content of symbolic link to hbnb_static
 sudo sed -i 'listen \[::\]:80 default_server/a \\n\tlocation /hbnb_static {\n\t\talias /data/web_static/current/;\n\t}' /etc/nginx/sites-available/default
 
