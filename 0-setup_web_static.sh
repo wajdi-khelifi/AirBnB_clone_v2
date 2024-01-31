@@ -11,25 +11,25 @@ then
     sudo sh -c 'echo "Hello World!" > /var/www/html/index.html'
     if [ -f /var/www/html/index.nginx-debian.html ]
     then
-	sudo rm var/www/html/index.debian.html
+	sudo rm /var/www/html/index.nginx-debian.html
     fi
 fi
 
-# Create fle sytem
+# create file system
 sudo mkdir --parents /data/web_static/shared/
 sudo mkdir --parents /data/web_static/releases/test/
 
-# Create file html for testing
-sudo sh -c 'echo "It'\''s all working for me" > data/web_static/releases/test/index.html'
+# create fake html file for testing
+sudo sh -c 'echo "It'\''s all working out for me" > /data/web_static/releases/test/index.html'
 
-# Create symlink
+# create symlink
 sudo ln -sfn /data/web_static/releases/test/ /data/web_static/current
 
-# Set ownership and permission of file structure
+# set ownership and permissions of file structure
 sudo chown -R ubuntu:ubuntu /data/
 
-# Update nginx config to serve content of symbolic link to hbnb_static
-sudo sed -i 'listen \[::\]:80 default_server/a \\n\tlocation /hbnb_static {\n\t\talias /data/web_static/current/;\n\t}' /etc/nginx/sites-available/default
+# update nginx config to serve content of symlink to hbnb_static
+sudo sed -i '/listen \[::\]:80 default_server/a \\n\tlocation /hbnb_static {\n\t\talias /data/web_static/current/;\n\t}' /etc/nginx/sites-available/default
 
-# Restart nginx
+# restart nginx
 sudo service nginx restart
