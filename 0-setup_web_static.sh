@@ -1,39 +1,32 @@
 #!/usr/bin/env bash
-# Bash script that sets up your web servers for the deployment of web_static
+# install nginx if not installed, and set up webserver for deployment
 
-apt-get -y update
-apt-get -y upgrade
-apt-get install -y nginx
+# install nginx if not yet installed
+if [ ! -x /usr/sbin/nginx ]
+then
+	sudo apt-get update
+	sudo apt-get upgrade -y
+	sudo apt-get install -y nginx
+	sudo service nginx start
+	sudo sh -c 'echo "Hello World!" > /var/www/html/index.html'
+	if [ -f /var/www/html/index.nginx-debian.html ]
+	then
+		sudo rm var/www/html/index.debian.html
+	fi
+fi
 
-mkdir -p /data/web_static/releases/test/
-mkdir -p /data/web_static/shared/
-echo "Khelifi Wajdi" > /data/web_static/releases/test/index.html
-ln -sf /data/web_static/releases/test/ /data/web_static/current
+# Create fle sytem
+sudo mkdir --parents /data/web_static/shared/
+sudo mkdir --parents /data/web_static/releases/test/
 
-chown -R ubuntu /data/
-chgrp -R ubuntu /data/
+# Create file html for testing
+sudo sh -c 'echo "It'\''s all working for me" > data/web_static/releases/test/index.html'
 
-printf %s "server {
-    listen 80 default_server;
-    listen [::]:80 default_server;
-    add_header X-Served-By $HOTNAME;
-    root   /var/www/html;
-    index  index.html index.htm;
+# Create symlink
+sudo ln -sfn /data/web_static/releases/test/ /data/web_static/current
 
-    location /hbnb_static {
-        alias /data/web_static/current;
-	index index.html index.htm;
-    }
+# Update nginx config to serve content of symbolic link to hbnb_static
+sudo sed -i 'listen \[::\]:80 default_server/a \\n\tlocation /hbnb_static {\n\t\talias /data/web_static/current/;\n\t}' /etc/nginx/sites-available/default
 
-    location /redirect_me {
-        return 301 http://khelifiwajdi.tech/;
-    }
-
-    error_page 404 /404.html;
-    location /404 {
-      root /var/www/html;
-      internal;
-    }
-}" > /etc/nginx/sites-available/default
-
-service nginx restart
+# Restart nginx
+sudo service nginx restart
