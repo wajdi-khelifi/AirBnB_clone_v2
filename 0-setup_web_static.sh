@@ -4,15 +4,15 @@
 # install nginx if not yet installed
 if [ ! -x /usr/sbin/nginx ]
 then
-	sudo apt-get update
-	sudo apt-get upgrade -y
-	sudo apt-get install -y nginx
-	sudo service nginx start
-	sudo sh -c 'echo "Hello World!" > /var/www/html/index.html'
-	if [ -f /var/www/html/index.nginx-debian.html ]
-	then
-		sudo rm var/www/html/index.debian.html
-	fi
+    sudo apt-get update
+    sudo apt-get upgrade -y
+    sudo apt-get install -y nginx
+    sudo service nginx start
+    sudo sh -c 'echo "Hello World!" > /var/www/html/index.html'
+    if [ -f /var/www/html/index.nginx-debian.html ]
+    then
+	sudo rm var/www/html/index.debian.html
+    fi
 fi
 
 # Create fle sytem
