@@ -73,5 +73,5 @@ class FileStorage:
             pass
 
     def close(self):
-        """doc meth"""
+        """doc metho"""
         self.reload()
